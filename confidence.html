@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>confidence. · 知道自己价值的八步</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="confidence">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --bg:#0D0D0D; --fg:#F5F2EA; --dim:#9A948A; --line:rgba(245,242,234,.16);
+  --gold:#C9A227;
+  --sans:"Avenir Next","Avenir","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --disp:"Didot","Bodoni MT","Playfair Display",Georgia,"Songti SC","STSong",serif;
+  --mono:ui-monospace,"Courier New",Courier,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);max-width:640px;margin:0 auto;padding:0 20px 90px;-webkit-font-smoothing:antialiased}
+header{padding:52px 0 8px}
+.kick{font-family:var(--mono);font-size:10px;letter-spacing:.34em;color:var(--dim);text-transform:uppercase}
+/* 封面 */
+.cover{width:min(310px,76vw);aspect-ratio:145/210;margin:26px auto 0;background:#050505;border:1px solid rgba(245,242,234,.22);border-radius:4px;box-shadow:0 22px 60px rgba(0,0,0,.7),0 4px 14px rgba(0,0,0,.5);position:relative;display:flex;flex-direction:column;padding:12% 11%;overflow:hidden}
+.cover::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 28% 18%, rgba(255,255,255,.05), transparent 55%);pointer-events:none}
+.cover .t{font-family:var(--disp);font-size:min(33px,10.8vw);letter-spacing:.01em;color:#FFF;font-weight:500;line-height:1}
+.cover .st{margin-top:auto;align-self:flex-end;font-family:var(--sans);font-weight:700;font-size:clamp(10px,3vw,13px);letter-spacing:.14em;line-height:1.75;color:#F5F2EA;text-transform:uppercase}
+.cover .au{margin-top:9%;font-family:var(--sans);font-size:clamp(9px,2.6vw,11.5px);letter-spacing:.16em;color:#F5F2EA;text-transform:uppercase}
+.bookmeta{margin-top:30px;text-align:center}
+.bookmeta h1{font-family:var(--disp);font-size:22px;letter-spacing:.04em;font-weight:500}
+.bookmeta p{font-size:12.5px;color:var(--dim);margin-top:7px;line-height:1.9}
+.bookmeta .tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);border:1px solid rgba(201,162,39,.45);border-radius:99px;padding:3px 12px;margin-bottom:12px}
+/* 进度 */
+.prog{display:flex;align-items:center;gap:12px;margin:26px 0 6px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim)}
+.prog .bar{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.prog .bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .5s ease}
+/* 目录 */
+.toc{margin-top:18px}
+.toc h2{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;margin-bottom:4px}
+.item{display:flex;align-items:center;gap:16px;padding:17px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.item .no{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.1em;width:34px;flex:none;transition:color .3s}
+.item.done .no{color:var(--gold)}
+.item .body{flex:1;min-width:0}
+.item .en{font-family:var(--disp);font-size:16.5px;letter-spacing:.02em;color:var(--fg)}
+.item .zh{font-size:11.5px;color:var(--dim);margin-top:3px;letter-spacing:.06em}
+.item .pg{font-family:var(--mono);font-size:9.5px;color:var(--dim);letter-spacing:.12em;flex:none}
+.item.done .pg{color:var(--gold)}
+/* 阅读页 */
+.reader{position:fixed;inset:0;z-index:900;background:var(--bg);transform:translateY(102%);transition:transform .42s cubic-bezier(.32,1,.38,1);overflow-y:auto;padding:0 0 60px}
+.reader.show{transform:none}
+.r-top{position:sticky;top:0;background:linear-gradient(var(--bg) 80%,transparent);padding:20px 20px 14px;display:flex;align-items:center;justify-content:space-between;z-index:5;max-width:640px;margin:0 auto}
+.r-back{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--dim);background:none;border:1px solid var(--line);border-radius:99px;padding:8px 16px;cursor:pointer}
+.r-no{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--gold)}
+.r-in{max-width:640px;margin:0 auto;padding:10px 22px 0}
+.r-en{font-family:var(--disp);font-size:29px;line-height:1.22;letter-spacing:.01em;margin:12px 0 8px}
+.r-zh{font-size:14px;color:var(--dim);letter-spacing:.08em;margin-bottom:22px}
+.r-quote{font-family:var(--disp);font-style:italic;font-size:17.5px;line-height:1.7;color:#E8E2D2;border-left:2px solid var(--gold);padding:4px 0 4px 16px;margin:20px 0 26px}
+.r-p{font-size:14.5px;line-height:2.05;color:#D9D4C8;margin-bottom:18px;letter-spacing:.02em}
+.r-h{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin:30px 0 14px}
+.prompt{border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;background:rgba(245,242,234,.03)}
+.prompt li{font-size:13.5px;line-height:2.1;color:#D9D4C8;list-style:none;padding-left:18px;position:relative}
+.prompt li::before{content:"—";position:absolute;left:0;color:var(--gold)}
+.mark-btn{display:block;width:100%;margin:34px 0 8px;padding:15px;border-radius:99px;border:none;background:var(--fg);color:#0D0D0D;font-family:var(--sans);font-weight:700;font-size:14.5px;letter-spacing:.14em;cursor:pointer}
+.mark-btn.did{background:none;border:1px solid var(--gold);color:var(--gold)}
+.r-nav{display:flex;gap:10px;margin-top:14px}
+.r-nav button{flex:1;padding:13px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--dim);font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;cursor:pointer}
+.r-nav button:disabled{opacity:.3}
+/* 徽章 */
+.badge{position:fixed;inset:0;z-index:950;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;padding:24px}
+.badge.show{opacity:1;pointer-events:auto}
+.badge-card{background:#050505;border:1px solid var(--gold);border-radius:18px;max-width:340px;width:100%;padding:34px 28px;text-align:center;box-shadow:0 0 60px rgba(201,162,39,.14)}
+.badge-card .big{font-family:var(--disp);font-size:26px;color:var(--gold);letter-spacing:.04em;margin:12px 0 10px}
+.badge-card p{font-size:12.5px;color:var(--dim);line-height:1.9}
+.badge-card .bno{font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;color:var(--gold)}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:9.5px;color:var(--dim);line-height:2.1;letter-spacing:.08em}
+</style>
+</head>
+<body>
+<header>
+  <div class="kick">ROXIE NAFOUSI · EIGHT STEPS</div>
+  <div class="cover">
+    <div class="t">confidence.</div>
+    <div class="st">Eight Steps<br>to Knowing<br>Your Worth</div>
+    <div class="au">Roxie Nafousi</div>
+  </div>
+  <div class="bookmeta">
+    <span class="tag">书系 · 黑皮书</span>
+    <h1>confidence.</h1>
+    <p>《Manifest》作者 Roxie Nafousi 著<br>知道自己价值的八步 —— 自信不是天赋，是可以练习的日常</p>
+  </div>
+  <div class="prog">
+    <span id="pTxt">已读 0 / 8</span>
+    <div class="bar"><i id="pBar"></i></div>
+  </div>
+</header>
+<div class="toc" id="toc"></div>
+<footer>/// confidence. — Roxie Nafousi · 八步版式引擎 · 灯塔 145:210<br>/// 阅读记录保存在本机 · 随时离开，随时回来</footer>
+<div class="reader" id="reader"></div>
+<div class="badge" id="badge" onclick="this.classList.remove('show')">
+  <div class="badge-card">
+    <div class="bno">STEP EIGHT COMPLETE</div>
+    <div class="big">KNOWING<br>YOUR WORTH</div>
+    <p>八步全部读完。你已经踏上知道自己价值的路——<br>剩下的，是每天活成那个自己。</p>
+    <div style="margin-top:16px"><span class="r-back" style="pointer-events:auto" onclick="document.getElementById('badge').classList.remove('show')">收下</span></div>
+  </div>
+</div>
+<script>
+const STEPS = [
+{no:"01", en:"Master Your Thoughts", zh:"掌控你的念头", pg:"p.09",
+ quote:"Our thoughts shape our beliefs, and our beliefs shape our reality.",
+ zh_quote:"念头塑造信念，信念塑造现实。",
+ body:[
+ "一切从一个念头开始。念头影响感受、驱动行为、最终构成自我价值的底座——如果一个念头被重复得足够多，它就会固化成信念，成为你解读世界的滤镜。",
+ "掌控念头不是强行正能量，而是夺回大脑的控制权：指认出那些自我怀疑的声音，把「我不擅长」改写成新的叙事。你不必相信新句子一开始就是真的，你只需要开始重复它。"],
+ prompt:["今天那个自我怀疑的声音说了什么？","它最早可能来自哪里？","我愿意把它改写成哪一句？"]},
+{no:"02", en:"Act with Intention", zh:"有意识地行动", pg:"p.33",
+ quote:"Our actions, big and small, either build us up or break us down.",
+ zh_quote:"我们的行动，无论大小，要么建立我们，要么拆掉我们。",
+ body:[
+ "行动比语言更响。每天的选择、习惯和行为，都在向自己传递关于「我值得怎样被对待」的讯息——为爱的人做一杯咖啡是表达爱，那么为自己早睡一次，也是。",
+ "Roxie 在自我修复前困在羞耻的循环里：熬夜、拖延、无休止刷手机。转机不是某个大决定，而是开始有意识地行动——让每个小动作都在替你说「我重视我自己」。"],
+ prompt:["最近哪一个习惯在替我「拆台」？","我可以把它换成哪个小小的「建立」动作？"]},
+{no:"03", en:"Stop Trying to Be Liked by Everybody", zh:"别追求被所有人喜欢", pg:"p.51",
+ quote:"Stop trying to be liked by everyone; you don't even like everyone.",
+ zh_quote:"别追求被所有人喜欢——你也不是喜欢每一个人。",
+ body:[
+ "从小学起，Roxie 就用妈妈便当里的糖果去「换」友谊，十二岁起花零花钱请同学吃饭——因为她不相信「原本的自己」就足够。",
+ "被所有人喜欢是一个不存在的终点。真正的底气来自：我按照自己的价值观活，有人因此靠近，是幸运；有人因此离开，是筛选。"],
+ prompt:["上一次我为了被喜欢而委屈自己是什么时候？","如果不再表演，我最想先在谁面前停下来？"]},
+{no:"04", en:"Break Free from Comparison", zh:"挣脱比较", pg:"p.75",
+ quote:"Comparison is the thief of confidence.",
+ zh_quote:"比较是自信的小偷。",
+ body:[
+ "人们常说比较偷走快乐，Roxie 说它同样偷走自信。当我们把自己和「看起来更成功、更好看、更受欢迎」的人对照，就会一步步相信：我不够好、不够行、不够足够。",
+ "比较把注意力从「我拥有什么、我本来是谁」挪到「我缺什么、我差多远」。挣脱的方法不是视而不见，而是把视线调回来——从别人的赛场上退场，回到自己的跑道。"],
+ prompt:["最近让我比较感发作的是什么？","把视线调回来：今天的我比上个月的我，多了什么？"]},
+{no:"05", en:"Celebrate Yourself", zh:"庆祝自己", pg:"p.99",
+ quote:"Honour who you were, appreciate who you are and be proud of who you're becoming.",
+ zh_quote:"尊重过去的你，欣赏现在的你，为正在成为的你骄傲。",
+ body:[
+ "前几步拆掉的都是同一个根源：不能全然接纳自己。而当我们终于接纳自己的全部——优势、差异、怪癖，甚至那些「自以为的缺点」——庆祝才成为可能。",
+ "自我庆祝不是自恋。它是自我接纳结出的果实：为走过来的一切骄傲，为正在发生的一切鼓掌，哪怕只是一次普通的完成。"],
+ prompt:["写下三件本周我做到的小事——再小也算。","我想对过去那个熬过来的自己说什么？"]},
+{no:"06", en:"Do Hard Things", zh:"做难的事", pg:"p.121",
+ quote:"Courage is not the absence of fear, but the willingness to act despite it.",
+ zh_quote:"勇气不是没有恐惧，而是带着恐惧仍然行动。",
+ body:[
+ "自信不是在舒适区里长出来的。Roxie 从儿子第一次上台的紧张讲起——真正的建立发生在「做了那件有点难的事」之后：自信常常不是大跨步，而是日常里每一次选择再往前一小步。",
+ "原书练习「document your wins（记录你的胜利）」：每次面对挑战后写下五问——回头看时你会看见，你能做的远比你以为的多。"],
+ prompt:["挑战开始前我感觉如何？","过程中呢？","我学到了什么？","完成之后是什么感觉？","这种感觉让我想接着做什么？"]},
+{no:"07", en:"Be of Service to Others", zh:"为他人付出", pg:"p.147",
+ quote:"When you pour into others, you fill your soul with purpose.",
+ zh_quote:"当你为他人倾注，你的灵魂就装满了意义。",
+ body:[
+ "低自尊最消耗人的方式，是把我们锁进自我审查的内循环：反复想自己哪里不好、刚才那句话是不是说错了。Roxie 说自己在最低谷时，整个生活都围着「我的问题」打转。",
+ "出口是向外：为别人做一点事。付出让注意力离开「我」，把你重新放回世界的关系里——意义感，是自信最稳的地基之一。"],
+ prompt:["这周我可以为谁做一件不为什么的小事？","上一次帮助别人之后，我的感觉是什么？"]},
+{no:"08", en:"Show Up as Your Best Self", zh:"以最好的自己出场", pg:"p.169",
+ quote:"You owe it to yourself to become everything you've ever dreamed of being.",
+ zh_quote:"成为你梦想中的一切，是你欠自己的。",
+ body:[
+ "最后一步，是走进「你最自信的那个自己」的角色里。Roxie 在《Manifest》里说过：fake it till you become it——从今天起，像那个人一样走路、说话、做决定，直到你成为那个人。",
+ "这不是表演，是预演。你不必等到「准备好了」才开始相信自己值得——你从现在这一刻，就已经开始。"],
+ prompt:["我最自信的自己，今天会怎么走进房间？","今天哪一件小事，可以由「那个我」来完成？"]}
+];
+const KEY="confidence_read", BADGE_KEY="confidence_badge";
+let read = JSON.parse(localStorage.getItem(KEY)||"{}");
+function save(){ localStorage.setItem(KEY, JSON.stringify(read)); }
+function render(){
+  const n = Object.values(read).filter(Boolean).length;
+  document.getElementById("pTxt").textContent = `已读 ${n} / 8`;
+  document.getElementById("pBar").style.width = (n/8*100)+"%";
+  document.getElementById("toc").innerHTML =
+   `<h2>/// Contents 目录</h2>` + STEPS.map((s,i)=>
+    `<div class="item ${read[i]?"done":""}" onclick="openStep(${i})">
+      <span class="no">No.${s.no}</span>
+      <div class="body"><div class="en">${s.en}</div><div class="zh">${s.zh}</div></div>
+      <span class="pg">${read[i]?"已读 · ":""}${s.pg}</span>
+    </div>`).join("");
+}
+let cur = 0;
+function openStep(i){
+  cur = i; const s = STEPS[i];
+  const r = document.getElementById("reader");
+  r.innerHTML = `
+   <div class="r-top"><button class="r-back" onclick="closeStep()">← 目录</button><span class="r-no">STEP ${s.no} · ${s.pg}</span></div>
+   <div class="r-in">
+     <div class="r-en">${s.en}</div>
+     <div class="r-zh">${s.zh}</div>
+     <div class="r-quote">"${s.quote}"<br><span style="font-style:normal;font-family:var(--sans);font-size:12.5px;color:var(--dim)">— ${s.zh_quote}</span></div>
+     ${s.body.map(p=>`<p class="r-p">${p}</p>`).join("")}
+     <div class="r-h">/// Journal Prompt 写给自己</div>
+     <div class="prompt"><ul>${s.prompt.map(q=>`<li>${q}</li>`).join("")}</ul></div>
+     <button class="mark-btn ${read[i]?"did":""}" onclick="toggle(${i})">${read[i]?"✓ 这一步已读完":"读完这一步"}</button>
+     <div class="r-nav">
+       <button onclick="openStep(${i-1})" ${i===0?"disabled":""}>← 上一步</button>
+       <button onclick="openStep(${i+1})" ${i===7?"disabled":""}>下一步 →</button>
+     </div>
+   </div>`;
+  r.classList.add("show"); r.scrollTop = 0;
+}
+function closeStep(){ document.getElementById("reader").classList.remove("show"); render(); }
+function toggle(i){
+  read[i] = true; save();
+  const all = Object.values(read).filter(Boolean).length === 8;
+  const btn = document.querySelector(".mark-btn");
+  btn.classList.add("did"); btn.textContent = "✓ 这一步已读完";
+  if(all && !localStorage.getItem(BADGE_KEY)){
+    localStorage.setItem(BADGE_KEY, "1");
+    setTimeout(()=>document.getElementById("badge").classList.add("show"), 420);
+  }
+}
+render();
+</script>
+</body>
+</html>
